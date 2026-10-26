@@ -49,7 +49,7 @@ jobs:
             binary: docmd-engine-win32-x64.node
             lib: docmd_engine.dll
 
-    runs-on: ${{ matrix.os }}
+    runs-on: "${{ (matrix.os) == 'macos-latest' && fromJSON('[\"self-hosted\",\"macOS\",\"ARM64\"]') || (matrix.os) == 'ubuntu-latest' && fromJSON('[\"self-hosted\",\"linux\",\"x64\"]') || (matrix.os) == 'ubuntu-24.04-arm' && fromJSON('[\"self-hosted\",\"linux\",\"ARM64\"]') || (matrix.os) == 'windows-latest' && fromJSON('[\"self-hosted\",\"windows\",\"x64\"]') || (matrix.os) }}"
 
     steps:
       - uses: actions/checkout@v7
@@ -107,7 +107,7 @@ jobs:
   publish:
     name: Publish to npm
     needs: build-native
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, linux, x64]
 
     steps:
       - uses: actions/checkout@v7
